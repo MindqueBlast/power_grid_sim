@@ -2,12 +2,12 @@ import matplotlib.pyplot as plt
 import networkx as nx
 import os
 
-def visualize_grid(G, title="Power Grid", filename=None):
+def visualize_grid(G, title="Power Grid", filename=None, return_fig=False):
     """
     Visualizes the current state of the grid.
     Active nodes are green, failed nodes are red.
     """
-    plt.figure(figsize=(10, 8))
+    fig = plt.figure(figsize=(10, 8))
     
     # Generate layout if not already computed
     if not hasattr(G, 'pos') or getattr(G, 'pos') is None:
@@ -43,9 +43,11 @@ def visualize_grid(G, title="Power Grid", filename=None):
     by_label = dict(zip(labels, handles))
     plt.legend(by_label.values(), by_label.keys())
     
-    if filename:
+    if return_fig:
+        return fig
+    elif filename:
         plt.tight_layout()
         plt.savefig(filename, dpi=150)
-        plt.close()
+        plt.close(fig)
     else:
         plt.show()
